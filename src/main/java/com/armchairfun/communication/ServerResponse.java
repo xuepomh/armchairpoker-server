@@ -9,6 +9,8 @@ public class ServerResponse extends AbstractCommunication implements XMLDescriba
 
 	public List<XMLDescribable> responseItems;
 	private String status;
+	public static final String RESPONSE_SUCCESS = "success";
+	public static final String RESPONSE_FAILURE = "failure";
 	
 	public ServerResponse() {
 		this.responseItems = new ArrayList<XMLDescribable>();

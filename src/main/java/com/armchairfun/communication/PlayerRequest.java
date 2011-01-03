@@ -34,31 +34,36 @@ public class PlayerRequest extends AbstractCommunication {
 	 * Parse the XML Client Request
 	 */
 	public PlayerRequest(String xml) {
-		Document requestDoc = DOMParser.parseXml(xml);
-		this.userId = DOMParser.getValueFromDocument(requestDoc, "request",
-				"userId");
-		this.action = DOMParser.getValueFromDocument(requestDoc, "request",
-				"action");
-		this.value = DOMParser.getValueFromDocument(requestDoc, "request",
-				"value");
+		try {
+			Document requestDoc = DOMParser.parseXml(xml);
+			this.userId = DOMParser.getValueFromDocument(requestDoc, "request",
+					"userId");
+			this.action = DOMParser.getValueFromDocument(requestDoc, "request",
+					"action");
+			this.value = DOMParser.getValueFromDocument(requestDoc, "request",
+					"value");
+		} catch (Exception e) {
+			// TODO LOG error
+			throw new RuntimeException(e);
+		}
 
 	}
 
 	public ServerResponse handleRequest() {
 
 		ServerResponse response = new ServerResponse();
-		
+
 		if (action.equals(UserActions.CONNECT)) {
 			Transaction tx = null;
 			Session session = SessionFactoryUtil.getInstance()
 					.getCurrentSession();
 			try {
 				tx = session.beginTransaction();
-				String SQL_QUERY ="Select id from User";
+				String SQL_QUERY = "Select id from User";
 				Query query = session.createQuery(SQL_QUERY);
 				if (query.list() != null && query.list().size() > 0) {
 					response = new ServerResponse();
-					response.setStatus(ServerResponseStatus.SUCCESS);
+					response.setStatus(ServerResponse.RESPONSE_SUCCESS);
 					return response;
 				}
 				tx.commit();
@@ -70,30 +75,29 @@ public class PlayerRequest extends AbstractCommunication {
 						System.out.println("Error rolling back transaction");
 					}
 				}
-				response.addResponseItem(new ServerErrorException(ErrorIds.UNKNOWN, "runtime error: " + e.getMessage()));
+				response.addResponseItem(new ServerErrorException(
+						ErrorIds.UNKNOWN, "runtime error: " + e.getMessage()));
 			}
-			
-		} else if (action.equals(UserActions.LOAD_USER_DETAILS)) { 
+
+		} else if (action.equals(UserActions.LOAD_USER_DETAILS)) {
 			User user;
 			try {
 				user = userDao.getUser(userId, value);
-					response.setStatus(ServerResponseStatus.SUCCESS);
+				response.setStatus(ServerResponse.RESPONSE_SUCCESS);
 				response.addResponseItem(user);
-				
+
 			} catch (UserNotFoundException e) {
-				response.setStatus(ServerResponseStatus.FAILURE);
-				response.addResponseItem(new UserNotFoundException(ErrorIds.NO_USER_FOUND, e.getMessage()));
+				response.setStatus(ServerResponse.RESPONSE_FAILURE);
+				response.addResponseItem(new UserNotFoundException(
+						ErrorIds.NO_USER_FOUND, e.getMessage()));
 
 			}
 
-
-			
-			
-
 			return response;
-		}else {
-			response.setStatus(ServerResponseStatus.FAILURE);
-			response.addResponseItem(new ServerErrorException(ErrorIds.UNRECOGNIZED_ACTION, "unknown call: " + action));
+		} else {
+			response.setStatus(ServerResponse.RESPONSE_FAILURE);
+			response.addResponseItem(new ServerErrorException(
+					ErrorIds.UNRECOGNIZED_ACTION, "unknown call: " + action));
 		}
 
 		return response;

@@ -1,13 +1,10 @@
 package com.armchairfun.communication;
 
-import com.armchairfun.common.UserActions;
-import com.armchairfun.communication.PlayerRequest;
-import com.armchairfun.communication.ServerResponse;
-import com.armchairfun.communication.ServerResponseStatus;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import com.armchairfun.common.UserActions;
 
 public class TestPlayerRequest extends TestCase {
 
@@ -43,7 +40,7 @@ public class TestPlayerRequest extends TestCase {
 		assertEquals("cjohn", loginRequest.getUserId());
 		assertEquals(UserActions.CONNECT, loginRequest.getAction());
 		ServerResponse response = loginRequest.handleRequest();
-		assertTrue(response.getStatus().equals(ServerResponseStatus.SUCCESS));
+		assertTrue(response.getStatus().equals(ServerResponse.RESPONSE_SUCCESS));
 	}
 
 }

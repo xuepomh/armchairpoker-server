@@ -8,5 +8,6 @@
  <property name="smallBlind" column="smallblind" />
  <property name="bigBlind" column="bigblind" />
  <property name="tableSize" column="tablesize" />
+  <property name="port" column="port" />
  </class>
 </hibernate-mapping>

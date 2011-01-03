@@ -21,18 +21,12 @@ public class SessionFactoryUtil {
 		return sessionFactory;
 	}
 
-	public Session openSession() {
-		return sessionFactory.openSession();
-	}
-
-	public Session getCurrentSession() {
+	public static Session getCurrentSession() {
 		return sessionFactory.getCurrentSession();
 	}
 
 	public static void close(){
 		if (sessionFactory != null)
 			sessionFactory.close();
-		sessionFactory = null;
-
 	}
 }

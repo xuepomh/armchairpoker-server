@@ -14,6 +14,7 @@ public class TableServer extends Thread {
     protected int port;
     protected boolean listening;
     protected Vector<TableServerConnection> clientConnections;
+    protected boolean allDone;
     
     /**
      * Creates a new instance of TableServer.
@@ -57,12 +58,16 @@ public class TableServer extends Thread {
      * Listens for client connections and handles them to TableServerConnections.
      */
     public void run() {
-        try {
+        if (allDone) {
+        	return;
+        }
+        
+    	try {
             this.socketServer = new ServerSocket(this.port);
             this.listening = true;
             debug("listening");
             
-            while (listening) {
+            while (listening && !allDone) {
                 Socket socket = this.socketServer.accept();
                 debug("client connection from " + socket.getRemoteSocketAddress());
                 TableServerConnection socketConnection = new TableServerConnection(socket, this);
@@ -127,6 +132,7 @@ public class TableServer extends Thread {
         try {
             this.socketServer.close();
             this.listening = false;
+            this.allDone = true;
             debug("stopped");
         }
         catch (Exception e) {
