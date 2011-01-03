@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-	<class name="com.armchairfun.common.Round" table="pokerround">
+	<class name="com.armchairfun.poker.common.Round" table="pokerround">
 		<id name="id" column="id">
 			<generator class="increment" />
 		</id>
-		<component name="Table" class="com.armchairfun.common.Table">
+		<component name="Table" class="com.armchairfun.poker.common.Table">
 			<property name="smallBlind" column="smallblind" />
 			<property name="bigBlind" column="bigblind" />
 			<property name="tableSize" column="tablesize" />
