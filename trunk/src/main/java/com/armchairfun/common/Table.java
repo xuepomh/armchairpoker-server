@@ -11,6 +11,7 @@ public class Table implements XMLDescribable
     private int smallBlind;
     private int bigBlind;
     private int tableSize = TableConstants.DEFAULT_TABLE_SIZE;
+    private int port;
     
     public Table() {
     	this.players = new ArrayList<User>();
@@ -20,10 +21,17 @@ public class Table implements XMLDescribable
     	//TODO construct a table from xml
     }
     
-    public void addPlayerToTable(User player) {
-    	// TODO if not full and not already at table then add
+    public void addPlayerToTable(User player) throws Exception {
+    	
+    	if (isFull()) {
+    	throw new Exception("Cannot add a player to a full table. Table size: " + tableSize + " playerSize: " + players.size());
+    	}
     	players.add(player);
     	
+    }
+
+    public boolean isFull() {
+    	return (players.size() >= tableSize);
     }
     
     public void initialize() {
@@ -66,6 +74,14 @@ public class Table implements XMLDescribable
 		this.bigBlind = largeBlind;
 	}
 	
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
 	public String toXML() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\t\t");

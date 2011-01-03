@@ -23,13 +23,20 @@ public class PlayingCardShuffler {
 	public static final double _CARDCUTVARIANCE = .1;
 
 	private Random random;
+	private String algorithm;
 	private String PRNGAlgorithm = "SHA1PRNG";
 	private int fullShufflesToRun = 1;
 
 	public PlayingCardShuffler() {
+		this.algorithm = PRNGAlgorithm;
 		initSecureRandom();
 	}
 
+	public PlayingCardShuffler(String algorithm) {
+		this.algorithm = algorithm;
+		initSecureRandom();
+	}
+	
 	/**
 	 * Try to get a cut position for the deck around the middle with a certain amount of variance.
 	 * 
@@ -271,18 +278,18 @@ public class PlayingCardShuffler {
 	 */
 	public void initSecureRandom() {
 		try {
-			SecureRandom secureRandom = SecureRandom.getInstance(PRNGAlgorithm);
+			SecureRandom secureRandom = SecureRandom.getInstance(algorithm);
 			// Get 1024 random bits
 			byte[] bytes = new byte[1024 / 8];
 			secureRandom.nextBytes(bytes);
 			int seedByteCount = 10;
 			byte[] seed = secureRandom.generateSeed(seedByteCount);
 
-			secureRandom = SecureRandom.getInstance(PRNGAlgorithm);
+			secureRandom = SecureRandom.getInstance(algorithm);
 			secureRandom.setSeed(seed);
 			random = secureRandom;
 		} catch (NoSuchAlgorithmException e) {
-			logger.error("Could not establish PNG Algorithm:  " + PRNGAlgorithm);
+			logger.error("Could not establish Algorithm:  " + algorithm);
 			random = new Random();
 			random.setSeed(System.currentTimeMillis());
 		}
@@ -296,11 +303,21 @@ public class PlayingCardShuffler {
 		this.fullShufflesToRun = fullShufflesToRun;
 	}
 
-	private synchronized Random getRandom() {
+	public synchronized Random getRandom() {
 		return random;
 	}
 
 	public void setRandom(Random random) {
 		this.random = random;
 	}
+	
+	public void setAlgorithm(String algorithm) {
+		this.algorithm = algorithm;
+	}
+
+	public String getAlgorithm() {
+		return this.algorithm;
+	}
+	
+	
 }

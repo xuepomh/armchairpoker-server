@@ -5,9 +5,6 @@ import com.armchairfun.common.XMLDescribable;
 public class ServerErrorException extends Exception implements XMLDescribable {
 
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1852311740675230071L;
 	private int errorId;
 	private String errorMessage;

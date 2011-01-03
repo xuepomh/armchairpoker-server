@@ -9,7 +9,7 @@ public class Round
     private Table table;
     private List<User> roundWinner; // can be a shared pot
     private BigDecimal pot;
-    private String roundStatus;
+    private String roundStatus = RoundStatus.NOT_STARTED;
     
     public void startRound() {
     	this.pot = new BigDecimal(0);

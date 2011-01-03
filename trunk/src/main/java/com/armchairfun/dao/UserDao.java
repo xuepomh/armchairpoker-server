@@ -13,30 +13,21 @@ import com.armchairfun.persistence.SessionFactoryUtil;
 
 public class UserDao {
 
-	public User getUser(String username, String password) throws UserNotFoundException {
+	public User getUser(String username, String password)
+			throws UserNotFoundException {
 		Transaction tx = null;
 		Session session = SessionFactoryUtil.getInstance().getCurrentSession();
-		try {
-			tx = session.beginTransaction();
-			List<User> users = session.createCriteria(User.class)
-			.add( Restrictions.eq("username", username))
-			.add( Restrictions.eq("password", password))
-					.list();
-			tx.commit();
-			if (users.size() > 0) {
-				return users.get(0);
-			}
-		} catch (RuntimeException e) {
-			if (tx != null && tx.isActive()) {
-				try {
-					tx.rollback();
-				} catch (HibernateException e1) {
-					System.out.println("Error rolling back transaction");
-				}
-				throw new UserNotFoundException(ErrorIds.NO_USER_FOUND, "User not found");
-			}
 
+		tx = session.beginTransaction();
+		List<User> users = session.createCriteria(User.class)
+				.add(Restrictions.eq("username", username))
+				.add(Restrictions.eq("password", password)).list();
+		tx.commit();
+		if (users.size() > 0) {
+			return users.get(0);
 		}
-		throw new UserNotFoundException(ErrorIds.NO_USER_FOUND, "User not found");
+
+		throw new UserNotFoundException(ErrorIds.NO_USER_FOUND,
+				"User not found");
 	}
 }

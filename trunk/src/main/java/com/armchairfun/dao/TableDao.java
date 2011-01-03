@@ -2,27 +2,27 @@ package com.armchairfun.dao;
 
 import java.util.List;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.armchairfun.common.ErrorIds;
 import com.armchairfun.common.Table;
-import com.armchairfun.common.TableList;
 import com.armchairfun.persistence.SessionFactoryUtil;
 
-public class LobbyDao {
+public class TableDao {
 
-	public TableList getTableList() {
+	public List<Table> getTableList() throws NoTablesFoundException {
 		Transaction tx = null;
 		Session session = SessionFactoryUtil.getInstance().getCurrentSession();
+
 		tx = session.beginTransaction();
 		List<Table> tables = session.createCriteria(Table.class).list();
-
-		TableList tableList = new TableList(tables);
-
 		tx.commit();
+		if (tables.size() > 0) {
+			return tables;
+		}
 
-		return tableList;
-
+		throw new NoTablesFoundException(ErrorIds.NO_TABLES_FOUND,
+				"No tables found");
 	}
 }

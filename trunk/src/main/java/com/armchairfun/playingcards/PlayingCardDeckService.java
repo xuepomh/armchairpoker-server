@@ -22,16 +22,7 @@ public class PlayingCardDeckService {
 		if (cardDeck.isDeckOk()) {
 			return cardDeck;
 		}
-		logDeckProblem("Deck creation issue - Severe");
 		throw new RuntimeException("Internal error creating virtual playing card deck");
-	}
-
-	/**
-	 * Log an issue with corrupt deck
-	 * 
-	 */
-	private void logDeckProblem(String message) {
-		logger.error(message);
 	}
 
 	public void setShuffler(PlayingCardShuffler cardShuffler) {

@@ -18,6 +18,7 @@ public class PolicyServer extends Thread {
     protected int port;
     protected ServerSocket serverSocket;
     protected boolean listening;
+    protected boolean allDone = false;
     
     /**
      * Creates a new instance of PolicyServer.
@@ -61,11 +62,15 @@ public class PolicyServer extends Thread {
      */
     public void run() {
         try {
+        	if (allDone) {
+        		return;
+        	}
+        	
             this.serverSocket = new ServerSocket(this.port);
             this.listening = true;
             debug("listening");
             
-            while (this.listening) {
+            while (this.listening && !allDone) {
                 Socket socket = this.serverSocket.accept();
                 debug("client connection from " + socket.getRemoteSocketAddress());
                 PolicyServerConnection socketConnection = new PolicyServerConnection(socket);

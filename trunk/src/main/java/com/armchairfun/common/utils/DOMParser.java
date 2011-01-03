@@ -15,43 +15,31 @@ import org.xml.sax.SAXException;
 
 public class DOMParser {
 
-	public static Document parseXml(String xml) {
+	public static Document parseXml(String xml) throws SAXException, ParserConfigurationException, IOException {
 		// get the factory
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		xml = xml.trim().replaceFirst("^([\\W]+)<","<");
+		xml = xml.trim().replaceFirst("^([\\W]+)<", "<");
+		// Using factory get an instance of document builder
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		InputSource is = new InputSource();
+		is.setCharacterStream(new StringReader(xml));
 
-		try {
+		// parse using builder to get DOM representation of the XML
+		return db.parse(is);
 
-			// Using factory get an instance of document builder
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			InputSource is = new InputSource();
-	        is.setCharacterStream(new StringReader(xml));
-
-			// parse using builder to get DOM representation of the XML
-			return db.parse(is);
-
-		} catch (ParserConfigurationException pce) {
-			System.out.println(pce.getMessage());
-			return null;
-		} catch (SAXException se) {
-			System.out.println(se.getMessage());
-			return null;
-		} catch (IOException ioe) {
-			System.out.println(ioe.getMessage());
-			return null;
-		}
 	}
 
-	public static String getValueFromDocument(Document doc, String node, String tagName) {
-		
+	public static String getValueFromDocument(Document doc, String node,
+			String tagName) {
+
 		NodeList nl = doc.getElementsByTagName(node);
-		if(nl != null && nl.getLength() == 1) {
-		
-				Element el = (Element)nl.item(0);
-				return el.getAttribute(tagName);
+		if (nl != null && nl.getLength() == 1) {
+
+			Element el = (Element) nl.item(0);
+			return el.getAttribute(tagName);
 		}
 		return "";
-		
+
 	}
 
 }
