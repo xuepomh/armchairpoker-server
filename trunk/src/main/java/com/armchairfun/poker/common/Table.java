@@ -34,8 +34,23 @@ public class Table implements XMLDescribable
     	return (players.size() >= tableSize);
     }
     
-    public void initialize() {
-    	this.dealer = players.get(0);
+    /**
+     * A round requires a list of all eligible players, i.e. players that don't have enough for
+     * the minimum bet shouldn't be added to the new round
+     * @return
+     */
+    public List<User> getAllEligiblePlayers() {
+    	if (players == null) {
+    		return null;
+    	}
+    	
+    	List<User> eligiblePlayers = new ArrayList<User>();
+    	for (User player : players) {
+    		if (player.getPlayCash() >= bigBlind) {
+    			eligiblePlayers.add(player);
+    		}
+    	}
+    	return eligiblePlayers;
     }
     
     protected void dealPlayerCards() {
