@@ -13,6 +13,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.armchairfun.poker.common.ErrorIds;
+import com.armchairfun.poker.dao.ServerErrorException;
+
 public class DOMParser {
 
 	public static Document parseXml(String xml) throws ParserConfigurationException, SAXException, IOException {
@@ -32,15 +35,20 @@ public class DOMParser {
 	}
 
 	public static String getValueFromDocument(Document doc, String node,
-			String tagName) {
+			String tagName) throws ServerErrorException {
 
+		if (doc == null) {
+			return null;
+		}
+		
 		NodeList nl = doc.getElementsByTagName(node);
 		if (nl != null && nl.getLength() == 1) {
 
 			Element el = (Element) nl.item(0);
 			return el.getAttribute(tagName);
+		} else {
+			throw new ServerErrorException(ErrorIds.CANNOT_PARSE_XML, "Could not get attribute value for tagName: " + tagName);
 		}
-		return "";
 
 	}
 

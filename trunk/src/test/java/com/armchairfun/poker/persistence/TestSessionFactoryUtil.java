@@ -1,13 +1,11 @@
 package com.armchairfun.poker.persistence;
 
-import org.hibernate.SessionFactory;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
-import com.armchairfun.poker.persistence.SessionFactoryUtil;
+import com.armchairfun.testutils.ArmchairFunTestCase;
 
-import junit.framework.TestCase;
-
-public class TestSessionFactoryUtil extends TestCase {
+public class TestSessionFactoryUtil extends ArmchairFunTestCase {
 
 	public void testGetInstance() {
 		SessionFactory sessionFactory = SessionFactoryUtil.getInstance();

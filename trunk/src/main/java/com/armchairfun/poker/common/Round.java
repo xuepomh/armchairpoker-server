@@ -20,7 +20,19 @@ public class Round {
 	 * @throws ServerErrorException
 	 */
 	public void startRound() throws ServerErrorException {
-		// only the valid players at the table should be eligible for the round
+		// only the eligible players at the table should added to the round
+		addEligiblePlayers();
+		this.roundStatus = RoundStatus.IN_PROGRESS;
+		createStartingPot();
+		// work out the next dealer for the rotation
+		assignDealer();
+		dealPlayerCards();
+	}
+
+	public void addEligiblePlayers() throws ServerErrorException{
+		if (table == null) {
+			throw new ServerErrorException(ErrorIds.NO_TABLE_FOR_ROUND, "Round " + Id + " has no table");
+		}
 		roundPlayers = table.getAllEligiblePlayers();
 		// we need at least two players to start the round
 		if (roundPlayers == null || roundPlayers.size() < 2) {
@@ -28,11 +40,43 @@ public class Round {
 					ErrorIds.NOT_ENOUGH_PLAYERS_FOR_ROUND,
 					"Not enough valid players to start a new round");
 		}
-		this.roundStatus = RoundStatus.IN_PROGRESS;
-		createStartingPot();
-		table.dealPlayerCards();
 	}
-
+	
+	public void assignDealer() throws ServerErrorException {
+		// get the current dealer from the table
+		Seat currentDealer = table.getCurrentDealer();
+		if (currentDealer == null) {
+			// use the first available dealer
+			getFirstAvailableDealer();
+			return;
+		}
+		// work out the next dealer by the next seat occupied by an eligible player
+		for (Seat seat: table.getSeats()) {
+			if (seat.getLocation() > currentDealer.location && roundPlayers.contains(seat.getPlayer())) {
+				// found the next eligible seat
+				currentDealer = seat;
+				table.setCurrentDealer(currentDealer);
+				return;
+			}
+		}
+		// we've got to the last seat and not found the next dealer, so try at the beginning of the list
+		getFirstAvailableDealer();
+		
+	}
+	
+	public void getFirstAvailableDealer() throws ServerErrorException {
+		for (Seat seat: table.getSeats()) {
+			if (roundPlayers.contains(seat.getPlayer())) {
+				// found the next eligible player
+				Seat currentDealer = seat;
+				table.setCurrentDealer(currentDealer);
+				return;
+			}
+		}
+		// no dealer found at all, this is bad
+		throw new ServerErrorException(ErrorIds.CANNOT_ASSIGN_DEALER, "Cannot assign dealer for the round " + Id);
+	}
+	
 	public void addPlayer(User player) throws ServerErrorException {
 		if (roundPlayers == null) {
 			roundPlayers = new ArrayList<User>();
@@ -58,12 +102,17 @@ public class Round {
 		if (roundEnded()) {
 			return;
 		}
-
+		// TODO!
 		// get a card from the pack
 		// validate we don't deal more than 3 communal cards
 		// start the betting
 
 	}
+	
+    protected void dealPlayerCards() {
+    	// TODO! shuffle cards
+    	// TODO! deal cards, starting with the one left from the dealer
+    }
 
 	private boolean roundEnded() {
 		return RoundStatus.ENDED.equals(roundStatus);
@@ -111,10 +160,6 @@ public class Round {
 
 	public List<Pot> getPots() {
 		return pots;
-	}
-
-	public void setPots(List<Pot> pots) {
-		this.pots = pots;
 	}
 
 }

@@ -48,8 +48,6 @@ public class User implements XMLDescribable {
 		this.playCash = playCash;
 	}
 	
-	
-	
 	public String getEmail() {
 		return email;
 	}
@@ -70,6 +68,14 @@ public class User implements XMLDescribable {
 		sb.append("\" email=\"");
 		sb.append(email);
 		sb.append("\" />");
+		return sb.toString();
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(id);
+		sb.append(": ");
+		sb.append(username);
 		return sb.toString();
 	}
 }

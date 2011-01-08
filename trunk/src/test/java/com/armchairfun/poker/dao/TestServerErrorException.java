@@ -1,10 +1,8 @@
 package com.armchairfun.poker.dao;
 
-import com.armchairfun.poker.dao.ServerErrorException;
+import com.armchairfun.testutils.ArmchairFunTestCase;
 
-import junit.framework.TestCase;
-
-public class TestServerErrorException extends TestCase {
+public class TestServerErrorException extends ArmchairFunTestCase {
 	
 
 	public void testToXML() throws Exception {

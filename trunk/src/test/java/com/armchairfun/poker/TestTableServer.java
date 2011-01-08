@@ -3,11 +3,9 @@ package com.armchairfun.poker;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import com.armchairfun.poker.TableServer;
+import com.armchairfun.testutils.ArmchairFunTestCase;
 
-import junit.framework.TestCase;
-
-public class TestTableServer extends TestCase {
+public class TestTableServer extends ArmchairFunTestCase {
 
 	public void testClientConnect() {
 		int port = 8000;

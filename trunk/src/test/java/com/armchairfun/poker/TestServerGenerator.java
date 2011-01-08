@@ -1,10 +1,8 @@
 package com.armchairfun.poker;
 
-import com.armchairfun.poker.ServerGenerator;
+import com.armchairfun.testutils.ArmchairFunTestCase;
 
-import junit.framework.TestCase;
-
-public class TestServerGenerator extends TestCase{
+public class TestServerGenerator extends ArmchairFunTestCase{
 
 	ServerGenerator generator = new ServerGenerator();
 	

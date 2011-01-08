@@ -1,8 +1,10 @@
 package com.armchairfun.poker.common;
 
+import com.armchairfun.testutils.ArmchairFunTestCase;
+
 import junit.framework.TestCase;
 
-public class TestHandRank extends TestCase {
+public class TestHandRank extends ArmchairFunTestCase {
 
 	public void testHandRankOrder() {
 		assertTrue(HandRank.ROYAL_FLUSH > HandRank.STRAIGHT_FLUSH);

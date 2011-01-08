@@ -9,17 +9,9 @@ public class TableList implements XMLDescribable
     public TableList(List<Table> tableList) {
     	this.tableList = tableList;
     }
-	
-    public TableList(String xml) {
-    	//TODO construct a table list from xml
-    }
     
 	public List<Table> getTableList() {
 		return tableList;
-	}
-
-	public void setTableList(List<Table> tableList) {
-		this.tableList = tableList;
 	}
 
 	public String toXML() {
