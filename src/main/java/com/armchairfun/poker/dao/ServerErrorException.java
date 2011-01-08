@@ -24,5 +24,15 @@ public class ServerErrorException extends Exception implements XMLDescribable {
 		sb.append("\" />");
 		return sb.toString();
 	}
+
+	public int getErrorId() {
+		return errorId;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+	
+	
 	
 }

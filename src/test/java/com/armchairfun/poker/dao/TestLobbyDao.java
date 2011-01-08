@@ -1,23 +1,11 @@
 package com.armchairfun.poker.dao;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
+import com.armchairfun.testutils.ArmchairFunTestCase;
 import com.armchairfun.poker.common.TableList;
-import com.armchairfun.poker.dao.LobbyDao;
 
-public class TestLobbyDao extends TestCase {
+public class TestLobbyDao extends ArmchairFunTestCase {
 	
 	LobbyDao lobbyDao = new LobbyDao();
-
-	public TestLobbyDao(String name) {
-		super(name);
-	}
-
-	public static Test suite() {
-		return new TestSuite(TestLobbyDao.class);
-	}
 
 	public void testGetTableList() throws Exception {
 		TableList tableList = lobbyDao.getTableList();

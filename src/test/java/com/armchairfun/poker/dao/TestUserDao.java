@@ -1,30 +1,20 @@
 package com.armchairfun.poker.dao;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
+import com.armchairfun.testutils.ArmchairFunTestCase;
 import com.armchairfun.poker.common.User;
-import com.armchairfun.poker.dao.UserDao;
-import com.armchairfun.poker.dao.UserNotFoundException;
 
-public class TestUserDao extends TestCase {
-	
+public class TestUserDao extends ArmchairFunTestCase {
+
 	UserDao userDao = new UserDao();
-
-	public TestUserDao(String name) {
-		super(name);
-	}
-
-	public static Test suite() {
-		return new TestSuite(TestUserDao.class);
-	}
 
 	public void testGetUser() throws Exception {
 		User user = userDao.getUser("cjohn", "password");
+		String expectedString = "0: cjohn";
+		String expectedXml = "<user id=\"0\" username=\"cjohn\" playCash=\"500\" email=\"cjohn@gmail.com\" />";
 		assertTrue(user != null);
 		assertTrue(user.getUsername().equals("cjohn"));
-		System.out.println(user.toXML());
+		assertEquals(expectedString, user.toString());
+		assertEquals(expectedXml, user.toXML());
 	}
 
 	public void testGetUserNotFound() {

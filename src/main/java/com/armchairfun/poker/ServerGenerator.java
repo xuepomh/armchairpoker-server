@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.armchairfun.poker.common.Table;
 import com.armchairfun.poker.dao.NoTablesFoundException;
+import com.armchairfun.poker.dao.ServerErrorException;
 import com.armchairfun.poker.dao.TableDao;
 
 /**
@@ -60,7 +61,7 @@ public class ServerGenerator {
 				this.tableServers.add(tableServer);
 
 			}
-		} catch (NoTablesFoundException e) {
+		} catch (ServerErrorException e) {
 			// TODO should LOG something
 		}
 

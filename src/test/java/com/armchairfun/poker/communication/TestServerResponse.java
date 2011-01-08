@@ -3,15 +3,13 @@ package com.armchairfun.poker.communication;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.w3c.dom.Document;
 
+import com.armchairfun.testutils.ArmchairFunTestCase;
 import com.armchairfun.poker.common.XMLDescribable;
 import com.armchairfun.poker.common.utils.DOMParser;
-import com.armchairfun.poker.communication.ServerResponse;
 
-public class TestServerResponse extends TestCase {
+public class TestServerResponse extends ArmchairFunTestCase {
 
 	public void testAddResponseItem() {
 		List<XMLDescribable> responseItems = new ArrayList<XMLDescribable>();

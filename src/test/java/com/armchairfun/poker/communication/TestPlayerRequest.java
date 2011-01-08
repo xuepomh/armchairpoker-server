@@ -1,22 +1,11 @@
 package com.armchairfun.poker.communication;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
+import com.armchairfun.testutils.ArmchairFunTestCase;
 import com.armchairfun.poker.common.UserActions;
-import com.armchairfun.poker.communication.PlayerRequest;
-import com.armchairfun.poker.communication.ServerResponse;
 
-public class TestPlayerRequest extends TestCase {
+public class TestPlayerRequest extends ArmchairFunTestCase {
 
-	public TestPlayerRequest(String name) {
-		super(name);
-	}
-
-	public static Test suite() {
-		return new TestSuite(TestPlayerRequest.class);
-	}
 
 	/** Test something. **/
 	public void testCreateFromXML() throws Exception {

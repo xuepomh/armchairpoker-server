@@ -2,6 +2,7 @@ package com.armchairfun.poker.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -11,12 +12,19 @@ import com.armchairfun.poker.persistence.SessionFactoryUtil;
 
 public class TableDao {
 
-	public List<Table> getTableList() throws NoTablesFoundException {
+	public List<Table> getTableList() throws ServerErrorException {
+		return getTableList(null);
+	}
+
+	public List<Table> getTableList(List<SearchFilter> searchFilters) throws ServerErrorException {
 		Transaction tx = null;
 		Session session = SessionFactoryUtil.getInstance().getCurrentSession();
 
 		tx = session.beginTransaction();
-		List<Table> tables = session.createCriteria(Table.class).list();
+		Criteria criteria = session.createCriteria(Table.class);
+		// add any filters required
+		HibernateSearchUtils.applyFilters(criteria, searchFilters);
+		List<Table> tables = criteria.list();
 		tx.commit();
 		if (tables.size() > 0) {
 			return tables;
